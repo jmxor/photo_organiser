@@ -42,9 +42,14 @@ def main():
             continue
         file_date = file_date[0]
 
-        # move file to destination directory
+        # check if file already exists
         dest_file_path = args.dest.joinpath(file_date[0:4], month_map[file_date[4:6]])
         dest_file_path.mkdir(parents=True, exist_ok=True)
+        if dest_file_path.joinpath(file_path.name).exists():
+            print(f"Warning: file '{dest_file_path}' already exists in directory '{dest_file_path}'")
+            continue
+
+        # move file to destination directory
         file_path.rename(dest_file_path / file_path.name)
 
         file_moved_count += 1
